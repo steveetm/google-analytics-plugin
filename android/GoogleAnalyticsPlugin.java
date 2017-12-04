@@ -118,6 +118,10 @@ public class GoogleAnalyticsPlugin extends CordovaPlugin {
       containerOpen(rawArgs, callback);
       return true;
 
+    } else if ("containerRefresh".equals(action)) {
+      containerRefresh(callback);
+      return true;
+
     } else if ("getContainerString".equals(action)) {
       getContainerString(rawArgs, callback);
       return true;
@@ -140,6 +144,10 @@ public class GoogleAnalyticsPlugin extends CordovaPlugin {
 
     } else if ("dataLayerPush".equals(action)) {
       dataLayerPush(rawArgs, callback);
+      return true;
+
+    } else if ("dataLayerPushValue".equals(action)) {
+      dataLayerPushValue(rawArgs, callback);
       return true;
 
     } else if ("dataLayerPushEvent".equals(action)) {
@@ -287,6 +295,19 @@ public class GoogleAnalyticsPlugin extends CordovaPlugin {
       });
   }
 
+  private void containerRefresh(final CallbackContext callback) {
+    cordova.getThreadPool().execute(new Runnable() {
+      public void run() {
+          if (containerHolder == null) {
+            callback.error("container not opened");
+          } else {
+            containerHolder.refresh();
+            callback.success();
+          }
+      }
+    });
+  }
+
   private void getContainerString(String rawArgs, CallbackContext callback) {
     if (hasContainer(callback)) {
       try {
@@ -406,6 +427,10 @@ public class GoogleAnalyticsPlugin extends CordovaPlugin {
       }
 
     });
+  }
+
+  private void dataLayerPushValue(final String rawArgs, final CallbackContext callback) {
+    dataLayerPush(rawArgs, callback);
   }
 
   private void dataLayerPushEvent(final String rawArgs, final CallbackContext callback) {

@@ -71,7 +71,7 @@
     </config-file>
 
     <source-file src="android/GoogleAnalyticsPlugin.java" target-dir="src/com/cmackay/plugins/googleanalytics" />
-    <framework src="com.google.android.gms:play-services-analytics:+" />
+    <framework src="com.google.android.gms:play-services-analytics:12.0.1" />
     <proguard-config>
 -keep class * extends java.util.ListResourceBundle {
 protected Object[][] getContents();
